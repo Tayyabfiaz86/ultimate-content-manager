@@ -1,0 +1,720 @@
+.custom-survey-form {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.custom-survey-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-survey-form label {
+    margin-top: 10px;
+}
+
+.custom-survey-form input[type="text"], .custom-survey-form select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.custom-survey-form button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #0073aa;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.custom-survey-form button:hover {
+    background-color: #005177;
+}
+
+.custom-survey-form .survey-question, .custom-survey-form .test-question {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex: 1 1 calc(50% - 20px); /* Adjust the width of the questions */
+    box-sizing: border-box;
+    position: relative;
+    font-size: 0.9em; /* Increase font size slightly */
+}
+
+.custom-survey-form .question-container, .custom-survey-form .choice-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.custom-survey-form .survey-question input[type="text"], .custom-survey-form .test-question input[type="text"] {
+    width: 70%; /* Make the input boxes smaller */
+    padding: 6px; /* Adjust padding for smaller input boxes */
+}
+
+.custom-survey-form .survey-question::before, .custom-survey-form .test-question::before {
+    content: counter(question-counter);
+    counter-increment: question-counter;
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    background: #0073aa;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.custom-survey-form .survey-choices-container, .custom-survey-form .test-choices-container {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-survey-form #survey-questions-container, .custom-survey-form #test-questions-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    counter-reset: question-counter;
+    max-height: 400px; /* Set a maximum height for the scrollable container */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px; /* Add padding to the scrollable container */
+}
+
+@media (max-width: 600px) {
+    .custom-survey-form .survey-question, .custom-survey-form .test-question {
+        padding: 5px;
+        flex: 1 1 100%; /* Full width on smaller screens */
+    }
+
+    .custom-survey-form button {
+        padding: 8px;
+    }
+}
+
+.form-field-spacing {
+    margin-top: 20px; /* Adjust the value as needed */
+}
+
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-item label {
+    font-weight: bold;
+}
+
+.filter-item select,
+.filter-item input[type="checkbox"] {
+    margin-left: 5px;
+}
+
+
+.ucm-test-details {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+}
+
+.ucm-test-details h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.ucm-test-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.ucm-print-buttons {
+    margin-top: 20px;
+}
+
+.ucm-print-button {
+    background-color: #0073aa;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.ucm-print-button:hover {
+    background-color: #005a87;
+}
+
+.ucm-print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.ucm-print-table th, .ucm-print-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.ucm-print-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.ucm-print-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.ucm-print-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.ucm-print-table h4 {
+    margin-top: 0;
+}
+
+
+
+
+/* */
+
+
+
+/* Styles for the test details section and view button */
+
+.ucm-test-details {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+}
+
+.ucm-test-details h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.ucm-test-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.ucm-print-buttons {
+    margin-top: 20px;
+}
+
+.ucm-print-button {
+    background-color: #0073aa;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.ucm-print-button:hover {
+    background-color: #005a87;
+}
+
+.ucm-print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.ucm-print-table th, .ucm-print-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.ucm-print-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.ucm-print-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.ucm-print-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.ucm-print-table h4 {
+    margin-top: 0;
+}
+
+/* Styles for the question details section */
+
+.ucm-question-details {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.ucm-question-details h3 {
+    margin-top: 0;
+    color: #333;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.ucm-questions-container {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.ucm-question-details ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.ucm-question-details li {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.ucm-question-details .ucm-question-text {
+    font-weight: bold;
+    color: #333;
+}
+
+.ucm-question-details .correct {
+    color: green;
+    font-weight: bold;
+}
+
+.ucm-question-details .incorrect {
+    color: red;
+    font-weight: bold;
+}
+
+/* Styles for the view button */
+
+.view-button {
+    display: none;
+}
+
+.wp-list-table tr:hover .view-button {
+    display: inline-block;
+}
+
+/* Styles for the modal */
+
+.ucm-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.ucm-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 1px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 5px 15px rgba(172, 279, 273, 0.3);
+    border-radius: 10px;
+}
+
+.ucm-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.ucm-close:hover,
+.ucm-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* survey multiple choices results */
+
+
+.survey-choice-results-header {
+    text-align: center;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    background-color: #006ba1;
+    z-index: 1000;
+    padding: 10px;
+    border-bottom: 1px solid #4b97aa;
+}
+
+.survey-choice-results-header h2 {
+    font-size: 2em;
+    margin: 0;
+    color: #333;
+}
+
+.survey-choice-results-header p {
+    font-size: 1.2em;
+    color: #ffffff;
+}
+
+
+
+.question {
+    margin-bottom: 20px;
+}
+
+.question-number {
+    font-weight: bold;
+    color: #0073aa;
+    margin-right: 5px;
+}
+
+.most-chosen {
+    font-weight: bold;
+    color: #ff0000; /* Red color for highlighting */
+}
+
+.survey-summary-section {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+}
+
+.survey-summary-section h3 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.survey-summary-section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.survey-summary-section button {
+    background-color: #0073aa;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.survey-summary-section button:hover {
+    background-color: #005a87;
+}
+
+.close {
+    position: sticky;
+    top: 0;
+    right: 0;
+    z-index: 1001; /* Ensure the close button is on top */
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+
+/* Styles for the survey summary */
+
+
+/* Modal container */
+#summary-survey-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 10000; /* Sit on top of the admin dashboard */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal content */
+#summary-survey-modal .modal-content {
+    background-color: #fefefe;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 500px; /* Maximum width */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Shadow effect */
+    overflow: hidden; /* Prevent content overflow */
+}
+
+/* Modal header */
+#summary-survey-modal .modal-header {
+    padding: 10px 20px;
+    background-color: #007cba; /* WordPress admin theme color */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#summary-survey-modal .modal-header h2 {
+    margin: 0;
+}
+
+/* Close button */
+#summary-survey-modal .close {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#summary-survey-modal .close:hover,
+#summary-survey-modal .close:focus {
+    color: #ccc;
+    text-decoration: none;
+}
+
+/* Modal body */
+#summary-survey-modal .modal-body {
+    padding: 20px;
+}
+
+/* Form elements */
+#summary-survey-modal #summary-survey-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* Modal footer */
+#summary-survey-modal .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    border-top: 1px solid #ccc;
+}
+
+/* Save button */
+#summary-survey-modal .save-btn {
+    background-color: #007cba; /* WordPress admin theme color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#summary-survey-modal .save-btn:hover {
+    background-color: #006ba1; /* Darker shade for hover */
+}
+
+
+/* For test questions and answer result model */
+
+/* Modal styles */
+#test-question-answer-results-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top, above other elements */
+    left: 23%;
+    top: 13%;
+    width: 60%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    display: flex; /* Use Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+/* Modal Content */
+#test-question-answer-results-modal .modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    width: 92%; /* Could be more or less, depending on screen size */
+    max-width: 800px; /* Maximum width */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Shadow for depth */
+}
+
+/* Modal Header */
+#test-question-answer-results-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Modal Body */
+#test-question-answer-results-modal .modal-body {
+    max-height: 60vh; /* Maximum height */
+    overflow-y: auto; /* Scroll if content is too long */
+    padding-right: 15px; /* Add padding to avoid content being too close to the scrollbar */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #007cba #f9f9f9; /* For Firefox */
+}
+
+/* Custom scrollbar for WebKit browsers */
+#test-question-answer-results-modal .modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+#test-question-answer-results-modal .modal-body::-webkit-scrollbar-track {
+    background: #f9f9f9;
+}
+
+#test-question-answer-results-modal .modal-body::-webkit-scrollbar-thumb {
+    background-color: #007cba;
+    border-radius: 10px;
+    border: 2px solid #f9f9f9;
+}
+
+/* The Close Button */
+#test-question-answer-results-modal .close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#test-question-answer-results-modal .close:hover,
+#test-question-answer-results-modal .close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+/* Question and Answer Styles */
+#test-question-answer-results-modal .question {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#test-question-answer-results-modal .question h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#test-question-answer-results-modal .answer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 20px;
+    padding: 5px 10px;
+    background-color: #f9f9f9;
+    border-left: 3px solid #007cba;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+/* Correct and Incorrect Buttons */
+#test-question-answer-results-modal .correct-btn, 
+#test-question-answer-results-modal .incorrect-btn {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#test-question-answer-results-modal .correct-btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+#test-question-answer-results-modal .incorrect-btn {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+#test-question-answer-results-modal .correct-btn:hover, 
+#test-question-answer-results-modal .incorrect-btn:hover {
+    opacity: 0.8;
+}
+
+/* Button Container */
+#test-question-answer-results-modal .button-container {
+    display: flex;
+    gap: 10px;
+}
+/* Symbol Styles */
+.symbol {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.symbol.correct {
+    color: green;
+}
+
+.symbol.incorrect {
+    color: red;
+}
+
+.symbol.unchecked {
+    color: gray;
+}
+

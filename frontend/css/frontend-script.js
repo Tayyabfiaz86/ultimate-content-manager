@@ -1,0 +1,1 @@
+// Frontend-specific JS logic can go here
