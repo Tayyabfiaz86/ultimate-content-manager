@@ -105,12 +105,13 @@ class UCM_Admin {
 
         global $wpdb;
 
+        $edit_id = isset($_POST['edit_id']) ? intval($_POST['edit_id']) : 0;
         $name = sanitize_text_field($_POST['name']);
         $type = sanitize_text_field($_POST['type']);
         if (isset($_POST['fail_percentage'])) {
             $failed_percentage = sanitize_text_field($_POST['fail_percentage']);
         } else {
-            $failed_percentage = null; // or set a default value if needed
+            $failed_percentage = null;
         }
         $survey_type = sanitize_text_field($_POST['survey_type']);
         $test_type = sanitize_text_field($_POST['test_type']);
@@ -180,18 +181,50 @@ class UCM_Admin {
             exit;
         }
 
-        $survey_id = $wpdb->insert(
-            "{$wpdb->prefix}ucm_surveys",
-            array(
-                'name' => $name,
-                'type' => $type,
-                'failed_percentage' => $failed_percentage
-            ),
-            array('%s', '%s', '%s')
-        );
+        // Edit mode: update existing survey
+        if ($edit_id) {
+            $survey_id = $edit_id;
+            $wpdb->update(
+                "{$wpdb->prefix}ucm_surveys",
+                array(
+                    'name' => $name,
+                    'failed_percentage' => $failed_percentage
+                ),
+                array('id' => $survey_id),
+                array('%s', '%s'),
+                array('%d')
+            );
 
-        $survey_id = $wpdb->insert_id;
+            // Delete old questions and choices
+            $old_questions = $wpdb->get_col($wpdb->prepare(
+                "SELECT id FROM {$wpdb->prefix}ucm_questions WHERE survey_id = %d",
+                $survey_id
+            ));
+            foreach ($old_questions as $q_id) {
+                $wpdb->query($wpdb->prepare(
+                    "DELETE FROM {$wpdb->prefix}ucm_choices WHERE question_id = %d",
+                    $q_id
+                ));
+            }
+            $wpdb->query($wpdb->prepare(
+                "DELETE FROM {$wpdb->prefix}ucm_questions WHERE survey_id = %d",
+                $survey_id
+            ));
+        } else {
+            // Create new survey
+            $wpdb->insert(
+                "{$wpdb->prefix}ucm_surveys",
+                array(
+                    'name' => $name,
+                    'type' => $type,
+                    'failed_percentage' => $failed_percentage
+                ),
+                array('%s', '%s', '%s')
+            );
+            $survey_id = $wpdb->insert_id;
+        }
 
+        // Insert new questions and choices
         foreach ($questions as $index => $question) {
             $question_id = $wpdb->insert(
                 "{$wpdb->prefix}ucm_questions",
@@ -223,7 +256,6 @@ class UCM_Admin {
         $referer = wp_get_referer();
         $redirect_url = add_query_arg(array('message' => 'success', 'type' => $type), $referer);
 
-        // Redirect back to the referring page with a success message
         wp_redirect($redirect_url);
         exit;
     }

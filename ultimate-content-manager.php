@@ -61,6 +61,32 @@ function ucm_enqueue_frontend_assets() {
     wp_enqueue_script('ucm-frontend-script', UCM_URL . 'frontend/js/frontend-script.js', array('jquery'), false, true);
 }
 
+/**
+ * Front-end preview handler: renders shortcode inside theme when ?ucm_preview=1&id=..&type=..
+ */
+add_action('template_redirect', 'ucm_handle_frontend_preview');
+function ucm_handle_frontend_preview() {
+    if (empty($_GET['ucm_preview'])) {
+        return;
+    }
+
+    $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+    $type = isset($_GET['type']) ? sanitize_text_field($_GET['type']) : '';
+
+    if (!$id || !in_array($type, array('survey','test'), true)) {
+        return;
+    }
+
+    // Render within theme header/footer so preview matches front-end appearance
+    status_header(200);
+    nocache_headers();
+    // Ensure shortcodes are available
+    echo get_header();
+    echo do_shortcode('[ucm_' . esc_attr($type) . ' id="' . intval($id) . '"]');
+    echo get_footer();
+    exit;
+}
+
 
 
 

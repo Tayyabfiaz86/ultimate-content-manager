@@ -20,7 +20,8 @@ class UCM_Survey_Test_List_Table extends WP_List_Table {
             'name'      => 'Name',
             'type'      => 'Type',
             'question_type'      => 'Question Type',
-            'shortcode' => 'Shortcode'
+            'shortcode' => 'Shortcode',
+            'actions'   => 'Actions'
         );
     }
 
@@ -47,6 +48,13 @@ class UCM_Survey_Test_List_Table extends WP_List_Table {
                     return $question_type ? $question_type : 'N/A';
             case 'shortcode':
                 return '[ucm_' . esc_html($item->type) . ' id="' . esc_html($item->id) . '"]';
+            case 'actions':
+                $preview_url = esc_url(add_query_arg(array('ucm_preview' => 1, 'type' => $item->type, 'id' => $item->id), home_url('/')));
+                $edit_url = esc_url(admin_url('admin.php?page=ucm&edit_id=' . intval($item->id) . '&edit_type=' . esc_attr($item->type)));
+                return '<div style="display:flex;gap:6px;flex-wrap:wrap;">'
+                    . '<a class="button" target="_blank" href="' . $preview_url . '">View</a>'
+                    . '<a class="button button-primary" href="' . $edit_url . '">Edit</a>'
+                    . '</div>';
             default:
                 return print_r($item, true);
         }
@@ -72,6 +80,12 @@ class UCM_Survey_Test_List_Table extends WP_List_Table {
         if (!empty($_GET['filter_type'])) {
             $where[] = "type = %s";
             $params[] = $_GET['filter_type'];
+        }
+
+        // Filter by name (partial match)
+        if (!empty($_GET['filter_name'])) {
+            $where[] = "name LIKE %s";
+            $params[] = '%' . $wpdb->esc_like($_GET['filter_name']) . '%';
         }
 
         // Filter by question type (from questions table)
