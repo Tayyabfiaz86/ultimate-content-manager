@@ -1,70 +1,190 @@
 .custom-survey-form {
-    max-width: 1200px;
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 20px;
-}
-
-.custom-survey-form form {
-    display: flex;
-    flex-direction: column;
+    padding: 12px;
+    background: #ffffff;
+    border: 1px solid #d7dde1;
+    border-radius: 10px;
+    box-sizing: border-box;
 }
 
 .custom-survey-form label {
-    margin-top: 10px;
+    margin: 0 0 4px 0;
+    font-weight: 600;
+    color: #1d2328;
+    font-size: 0.92rem;
 }
 
 .custom-survey-form input[type="text"], .custom-survey-form select {
     width: 100%;
-    padding: 8px;
-    margin-top: 5px;
+    padding: 0 12px;
+    min-height: 34px;
+    border: 1px solid #c3c9ce;
+    border-radius: 8px;
+    background: #fbfcfd;
+    box-sizing: border-box;
 }
 
-.custom-survey-form button {
-    margin-top: 20px;
-    padding: 10px;
+.custom-survey-form input[type="text"]:focus, .custom-survey-form select:focus {
+    border-color: #0073aa;
+    box-shadow: 0 0 0 2px rgba(0, 115, 170, 0.14);
+    outline: none;
+}
+
+.custom-survey-form button,
+.custom-survey-form input[type="submit"],
+.custom-survey-form .button,
+.custom-survey-form .button-primary {
+    margin-top: 10px;
+    padding: 8px 14px;
+    min-height: 34px;
+    line-height: 1.2;
+    width: auto;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     background-color: #0073aa;
     color: white;
     border: none;
+    border-radius: 8px;
     cursor: pointer;
+    text-decoration: none;
+    box-sizing: border-box;
 }
 
-.custom-survey-form button:hover {
+.custom-survey-form button:hover,
+.custom-survey-form input[type="submit"]:hover,
+.custom-survey-form .button:hover,
+.custom-survey-form .button-primary:hover {
     background-color: #005177;
+    color: white !important;
+}
+
+.custom-survey-form .button {
+    margin-top: 10px;
+    min-height: 34px;
+    padding: 8px 14px;
+    color: white;
+}
+
+.top-section {
+    display: grid;
+    width: 98%;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 10px;
+    align-items: end;
+    background: #f7f9fb;
+    border: 1px solid #dce4eb;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 16px;
+}
+
+.top-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.top-field select, .top-field input {
+    height: 34px;
+    line-height: 34px;
+}
+
+@media (max-width: 880px) {
+    .top-section {
+        grid-template-columns: 1fr;
+    }
 }
 
 .custom-survey-form .survey-question, .custom-survey-form .test-question {
+    width: 100%;
     margin-top: 20px;
-    padding: 10px;
+    padding: 48px 10px 10px;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    flex: 1 1 calc(50% - 20px); /* Adjust the width of the questions */
+    border-radius: 8px;
     box-sizing: border-box;
     position: relative;
-    font-size: 0.9em; /* Increase font size slightly */
+    font-size: 0.95em;
+    background: #fbfcfd;
 }
 
-.custom-survey-form .question-container, .custom-survey-form .choice-container {
+.custom-survey-form .question-container,
+.custom-survey-form .choice-container,
+.custom-survey-form .survey-question > div,
+.custom-survey-form .test-question > div {
     display: flex;
     flex-direction: column;
+    gap: 8px;
     margin-top: 10px;
 }
 
-.custom-survey-form .survey-question input[type="text"], .custom-survey-form .test-question input[type="text"] {
-    width: 70%; /* Make the input boxes smaller */
-    padding: 6px; /* Adjust padding for smaller input boxes */
+.custom-survey-form .survey-question input[type="text"],
+.custom-survey-form .test-question input[type="text"],
+.custom-survey-form .test-question select,
+.custom-survey-form .survey-question select {
+    width: 100%;
+    padding: 10px 12px;
+    min-height: 36px;
+    border: 1px solid #c3c9ce;
+    border-radius: 8px;
+    background: #ffffff;
+    box-sizing: border-box;
 }
 
 .custom-survey-form .survey-question::before, .custom-survey-form .test-question::before {
     content: counter(question-counter);
     counter-increment: question-counter;
     position: absolute;
-    top: -10px;
-    left: -10px;
+    top: 16px;
+    left: 16px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #0073aa;
     color: white;
-    padding: 5px 10px;
     border-radius: 50%;
     font-weight: bold;
+    font-size: 14px;
+}
+
+/* Remove (X) button for question cards - position top-right aligned with numbering */
+.ucm-remove-question {
+    position: absolute;
+    top: 6px !important;
+    right: 16px !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 50% !important;
+    background: #0073aa;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    z-index: 5;
+}
+.ucm-remove-question:hover {
+    background: #005177;
+    color: #fff;
+}
+
+/* Visually hide native scrollbars but keep scrolling functional */
+.custom-survey-form #survey-questions-container::-webkit-scrollbar,
+.custom-survey-form #test-questions-container::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+.custom-survey-form #survey-questions-container,
+.custom-survey-form #test-questions-container {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 .custom-survey-form .survey-choices-container, .custom-survey-form .test-choices-container {
@@ -74,13 +194,20 @@
 }
 
 .custom-survey-form #survey-questions-container, .custom-survey-form #test-questions-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(320px, 1fr));
+    gap: 24px;
     counter-reset: question-counter;
-    max-height: 400px; /* Set a maximum height for the scrollable container */
-    overflow-y: auto; /* Enable vertical scrolling */
-    padding: 10px; /* Add padding to the scrollable container */
+    width: 98%;
+    padding: 10px;
+    max-height: 410px;
+    overflow-y: auto;
+}
+
+@media (max-width: 760px) {
+    .custom-survey-form #survey-questions-container, .custom-survey-form #test-questions-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 600px) {

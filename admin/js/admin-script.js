@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const question = document.createElement('div');
         question.className = 'survey-question';
         question.innerHTML = `
+            <button type="button" class="ucm-remove-question" aria-label="Remove question">×</button>
             <div>
                 <label>Question:</label>
                 <input type="text" name="survey_questions[]" class="regular-text" />
@@ -92,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const question = document.createElement('div');
         question.className = 'test-question';
         question.innerHTML = `
+            <button type="button" class="ucm-remove-question" aria-label="Remove question">×</button>
             <div>
                 <label>Question:</label>
                 <input type="text" name="test_questions[]" class="regular-text" />
@@ -125,6 +127,14 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
         container.appendChild(question);
+    });
+
+    // Delegate remove action for dynamically added question cards
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList && e.target.classList.contains('ucm-remove-question')) {
+            var card = e.target.closest('.survey-question, .test-question');
+            if (card) card.remove();
+        }
     });
 
     // Trigger change event to set initial visibility

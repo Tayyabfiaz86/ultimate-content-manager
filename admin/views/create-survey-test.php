@@ -8,36 +8,43 @@
     <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" class="custom-survey-form">
         <input type="hidden" name="action" value="ucm_save_survey">
         <?php wp_nonce_field('ucm_save_survey', 'ucm_nonce'); ?>
-        
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" required />
 
-        <label for="type">Choose Type:</label>
-        <select name="type" id="type">
-            <option value="survey">Survey</option>
-            <option value="test">Test</option>
-        </select>
-        
-        <div id="survey-type-fields" style="display:none;">
-            <label for="survey-type">Survey Type:</label>
-            <select name="survey_type" id="survey-type">
-                <option value="question_answers">Question and Answers</option>
-                <option value="multiple_choices">Multiple Choices</option>
-            </select>
-        </div>
+        <div class="top-section">
+            <div class="top-field">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" required />
+            </div>
 
-        <div id="test-type-fields" style="display:none;">
-            <label for="test-type">Test Type:</label>
-            <select name="test_type" id="test-type">
-                <option value="question_answers">Question and Answers</option>
-                <option value="multiple_choices">Multiple Choices</option>
-            </select>
+            <div class="top-field">
+                <label for="type">Choose Type:</label>
+                <select name="type" id="type">
+                    <option value="survey">Survey</option>
+                    <option value="test">Test</option>
+                </select>
+            </div>
+
+            <div class="top-field" id="survey-type-fields" style="display:none;">
+                <label for="survey-type">Survey Type:</label>
+                <select name="survey_type" id="survey-type">
+                    <option value="question_answers">Question and Answers</option>
+                    <option value="multiple_choices">Multiple Choices</option>
+                </select>
+            </div>
+
+            <div class="top-field" id="test-type-fields" style="display:none;">
+                <label for="test-type">Test Type:</label>
+                <select name="test_type" id="test-type">
+                    <option value="question_answers">Question and Answers</option>
+                    <option value="multiple_choices">Multiple Choices</option>
+                </select>
+            </div>
         </div>
 
         <div id="survey-fields" style="display:none;">
             <h3>Survey Questions</h3>
             <div id="survey-questions-container" class="scrollable-container">
                 <div class="survey-question">
+                    <button type="button" class="ucm-remove-question" aria-label="Remove question">×</button>
                     <div>
                         <label>Question:</label>
                         <input type="text" name="survey_questions[]" />
@@ -69,6 +76,7 @@
             <h3>Test Questions & Answers</h3>
             <div id="test-questions-container" class="scrollable-container">
                 <div class="test-question">
+                    <button type="button" class="ucm-remove-question" aria-label="Remove question">×</button>
                     <div>
                         <label>Question:</label>
                         <input type="text" name="test_questions[]" />
