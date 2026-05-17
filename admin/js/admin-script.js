@@ -8,6 +8,131 @@ document.addEventListener('DOMContentLoaded', function() {
     const testFields = document.getElementById('test-fields');
     const addSurveyQuestionBtn = document.getElementById('add-survey-question');
     const addTestQuestionBtn = document.getElementById('add-test-question');
+    const form = document.querySelector('.custom-survey-form');
+
+    function getFormErrorBox() {
+        if (typeSelect.value === 'survey') {
+            return document.getElementById('ucm-form-error-survey');
+        }
+        if (typeSelect.value === 'test') {
+            return document.getElementById('ucm-form-error-test');
+        }
+        return null;
+    }
+
+    function clearValidationState() {
+        document.querySelectorAll('.ucm-input-error').forEach(el => el.classList.remove('ucm-input-error'));
+        document.querySelectorAll('.ucm-question-error').forEach(el => el.classList.remove('ucm-question-error'));
+        document.querySelectorAll('.ucm-form-error').forEach(box => {
+            box.textContent = '';
+            box.style.display = 'none';
+        });
+    }
+
+    function markInvalidField(field) {
+        if (!field) {
+            return;
+        }
+        field.classList.add('ucm-input-error');
+        const card = field.closest('.survey-question, .test-question');
+        if (card) {
+            card.classList.add('ucm-question-error');
+        }
+    }
+
+    function showFormErrors(messages) {
+        if (!messages.length) {
+            return;
+        }
+
+        const summary = messages.length > 1
+            ? 'Please fix ' + messages.length + ' problems below.'
+            : 'Please fix the problem below.';
+
+        const errorBox = getFormErrorBox();
+        if (errorBox) {
+            errorBox.innerHTML = '<strong>' + summary + '</strong><br>' + messages.map(msg => '• ' + msg).join('<br>');
+            errorBox.style.display = 'block';
+        } else {
+            alert(summary + '\n' + messages.join('\n'));
+        }
+    }
+
+    function validateForm(event) {
+        clearValidationState();
+
+        let valid = true;
+        let firstInvalid = null;
+        const errors = [];
+        const name = document.getElementById('name');
+        if (!name.value.trim()) {
+            valid = false;
+            markInvalidField(name);
+            firstInvalid = firstInvalid || name;
+            errors.push('Name is required.');
+        }
+
+        const type = typeSelect.value;
+        if (type !== 'survey' && type !== 'test') {
+            valid = false;
+            markInvalidField(typeSelect);
+            firstInvalid = firstInvalid || typeSelect;
+            errors.push('Choose Type is required.');
+        }
+
+        const questionCards = document.querySelectorAll(type === 'survey' ? '.survey-question' : '.test-question');
+        if (questionCards.length === 0) {
+            valid = false;
+            errors.push('Add at least one question before creating.');
+        }
+
+        questionCards.forEach((card, index) => {
+            const questionInput = card.querySelector(type === 'survey' ? 'input[name="survey_questions[]"]' : 'input[name="test_questions[]"]');
+            if (!questionInput || !questionInput.value.trim()) {
+                valid = false;
+                markInvalidField(questionInput);
+                firstInvalid = firstInvalid || questionInput;
+                errors.push('Question ' + (index + 1) + ' is required.');
+            }
+
+            const subtype = type === 'survey' ? surveyTypeSelect.value : testTypeSelect.value;
+            const choicesVisible = subtype === 'multiple_choices';
+            if (choicesVisible) {
+                const choiceInputs = card.querySelectorAll(type === 'survey' ? 'input[name="survey_choices[]"]' : 'input[name="test_choices[]"]');
+                choiceInputs.forEach((choiceInput, choiceIndex) => {
+                    if (!choiceInput.value.trim()) {
+                        valid = false;
+                        markInvalidField(choiceInput);
+                        firstInvalid = firstInvalid || choiceInput;
+                        errors.push('Choice ' + (choiceIndex + 1) + ' for question ' + (index + 1) + ' is required.');
+                    }
+                });
+
+                if (type === 'test') {
+                    const correctSelect = card.querySelector('select[name="test_correct[]"]');
+                    if (!correctSelect || !correctSelect.value) {
+                        valid = false;
+                        markInvalidField(correctSelect);
+                        firstInvalid = firstInvalid || correctSelect;
+                        errors.push('Correct Answer for question ' + (index + 1) + ' is required.');
+                    }
+                }
+            }
+        });
+
+        if (!valid) {
+            event.preventDefault();
+            showFormErrors(Array.from(new Set(errors)));
+            if (firstInvalid) {
+                firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstInvalid.focus({ preventScroll: true });
+            }
+        }
+    }
+
+    if (form) {
+        form.addEventListener('submit', validateForm);
+    }
 
     typeSelect.addEventListener('change', function() {
         if (this.value === 'survey') {
@@ -118,6 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="choice-container">
                     <label>Correct Answer:</label>
                     <select name="test_correct[]" class="regular-text">
+                        <option value="" selected disabled>Choose Correct Answer</option>
                         <option value="1">Choice 1</option>
                         <option value="2">Choice 2</option>
                         <option value="3">Choice 3</option>

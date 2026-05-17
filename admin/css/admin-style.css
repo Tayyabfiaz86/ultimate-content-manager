@@ -26,6 +26,25 @@
     box-sizing: border-box;
 }
 
+.ucm-form-error {
+    display: none;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border: 1px solid #d32f2f;
+    background: #fdecea;
+    color: #a94442;
+    border-radius: 8px;
+}
+
+.ucm-input-error {
+    border-color: #d32f2f !important;
+    box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.12);
+}
+
+.ucm-question-error {
+    border-color: #d32f2f !important;
+}
+
 .custom-survey-form input[type="text"]:focus, .custom-survey-form select:focus {
     border-color: #0073aa;
     box-shadow: 0 0 0 2px rgba(0, 115, 170, 0.14);

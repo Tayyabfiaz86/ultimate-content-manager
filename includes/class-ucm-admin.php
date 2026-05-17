@@ -114,29 +114,83 @@ class UCM_Admin {
         }
         $survey_type = sanitize_text_field($_POST['survey_type']);
         $test_type = sanitize_text_field($_POST['test_type']);
+
+        $errors = array();
+        if (empty($name)) {
+            $errors[] = 'Name is required.';
+        }
+        if ($type !== 'survey' && $type !== 'test') {
+            $errors[] = 'Choose Type is required.';
+        }
+        if ($type === 'survey' && empty($survey_type)) {
+            $errors[] = 'Survey Type is required.';
+        }
+        if ($type === 'test' && empty($test_type)) {
+            $errors[] = 'Test Type is required.';
+        }
+
+        if ($type == 'survey') {
+            $questions = isset($_POST['survey_questions']) ? (array) $_POST['survey_questions'] : array();
+            $choices = isset($_POST['survey_choices']) ? (array) $_POST['survey_choices'] : array();
+            $correct_answers = array();
+        } elseif ($type == 'test') {
+            $questions = isset($_POST['test_questions']) ? (array) $_POST['test_questions'] : array();
+            $choices = isset($_POST['test_choices']) ? (array) $_POST['test_choices'] : array();
+            $correct_answers = isset($_POST['test_correct']) ? (array) $_POST['test_correct'] : array();
+        } else {
+            $questions = array();
+            $choices = array();
+            $correct_answers = array();
+        }
+
+        if (empty($questions)) {
+            $errors[] = 'At least one question is required.';
+        }
+
+        foreach ($questions as $index => $question) {
+            if (!trim($question)) {
+                $errors[] = 'Question ' . ($index + 1) . ' cannot be empty.';
+            }
+
+            $requiresChoices = ($type == 'survey' && $survey_type === 'multiple_choices') || ($type == 'test' && $test_type === 'multiple_choices');
+            if ($requiresChoices) {
+                for ($i = 0; $i < 4; $i++) {
+                    $choiceIndex = $index * 4 + $i;
+                    if (empty(trim($choices[$choiceIndex] ?? ''))) {
+                        $errors[] = 'Choice ' . ($i + 1) . ' is required for question ' . ($index + 1) . '.';
+                    }
+                }
+            }
+
+            if ($type == 'test' && $test_type === 'multiple_choices') {
+                $correctValue = trim($correct_answers[$index] ?? '');
+                if ($correctValue === '' || !in_array($correctValue, array('1', '2', '3', '4'), true)) {
+                    $errors[] = 'Correct Answer is required for question ' . ($index + 1) . '.';
+                }
+            }
+        }
+
+        if (!empty($errors)) {
+            $referer = wp_get_referer();
+            $redirect_url = add_query_arg(array(
+                'message' => 'error',
+                'error_reason' => urlencode(implode(' ', array_unique($errors)))
+            ), $referer);
+            wp_redirect($redirect_url);
+            exit;
+        }
+
         $survey_id = $wpdb->insert(
             "{$wpdb->prefix}ucm_surveys",
             array(
                 'name' => $name,
                 'type' => $type,
-                'failed_percentage'=>$failed_percentage
+                'failed_percentage' => $failed_percentage
             ),
-            array('%s', '%s')
+            array('%s', '%s', '%s')
         );
 
         $survey_id = $wpdb->insert_id;
-
-        if ($type == 'survey') {
-            $questions = $_POST['survey_questions'];
-            $choices = $_POST['survey_choices'];
-            $correct_answers = [];
-        } elseif ($type == 'test') {
-            $questions = $_POST['test_questions'];
-            $choices = $_POST['test_choices'];
-            $correct_answers = $_POST['test_correct'];
-        } else {
-            wp_die('Invalid type');
-        }
 
         foreach ($questions as $index => $question) {
             $question_id = $wpdb->insert(

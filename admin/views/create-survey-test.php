@@ -9,6 +9,12 @@
         <input type="hidden" name="action" value="ucm_save_survey">
         <?php wp_nonce_field('ucm_save_survey', 'ucm_nonce'); ?>
 
+        <?php if (isset($_GET['message']) && $_GET['message'] === 'error' && isset($_GET['error_reason'])): ?>
+            <div class="notice notice-error is-dismissible">
+                <p><?php echo esc_html(urldecode($_GET['error_reason'])); ?></p>
+            </div>
+        <?php endif; ?>
+
         <div class="top-section">
             <div class="top-field">
                 <label for="name">Name:</label>
@@ -42,6 +48,7 @@
 
         <div id="survey-fields" style="display:none;">
             <h3>Survey Questions</h3>
+            <div id="ucm-form-error-survey" class="ucm-form-error" style="display:none;"></div>
             <div id="survey-questions-container" class="scrollable-container">
                 <div class="survey-question">
                     <button type="button" class="ucm-remove-question" aria-label="Remove question">×</button>
@@ -74,6 +81,7 @@
         
         <div id="test-fields" style="display:none;">
             <h3>Test Questions & Answers</h3>
+            <div id="ucm-form-error-test" class="ucm-form-error" style="display:none;"></div>
             <div id="test-questions-container" class="scrollable-container">
                 <div class="test-question">
                     <button type="button" class="ucm-remove-question" aria-label="Remove question">×</button>
@@ -101,6 +109,7 @@
                         <div class="choice-container">
                             <label>Correct Answer:</label>
                             <select name="test_correct[]">
+                                <option value="" selected disabled>Choose Correct Answer</option>
                                 <option value="1">Choice 1</option>
                                 <option value="2">Choice 2</option>
                                 <option value="3">Choice 3</option>
